@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <cstring>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -71,7 +72,7 @@ unsigned short Socket::resolveService(const std::string &service,
   struct servent *serv;
 
   if ((serv = getservbyname(service.c_str(), protocol.c_str())) == NULL)
-    return atoi(service.c_str());
+    return std::atoi(service.c_str());
   else 
     return ntohs(serv->s_port);
 }
