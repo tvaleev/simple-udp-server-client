@@ -10,24 +10,24 @@ using namespace std;
 const int ECHOMAX = 255;
 
 int main(int argc, char *argv[]) {
-  if ((argc < 3) || (argc > 4)) {
+  if ((argc != 5)) {
     cerr << "Usage: " << argv[0] 
-         << " <Server> <Echo String> [<Server Port>]\n";
+         << " <Client port> <Server> <Echo String> <Server Port>\n";
     exit(1);
   }
 
-  string servAddress = argv[1]; // server address
-  char* echoString = argv[2]; // string to echo
+  string userInputlocalPort = argv[1]; // local client port
+  string servAddress = argv[2]; // server address
+  char* echoString = argv[3]; // string to echo
   int echoStringLen = strlen(echoString);
   if (echoStringLen > ECHOMAX) {
     cerr << "Echo string too long" << endl;
     exit(1);
   }
-  unsigned short echoServPort = Socket::resolveService(
-    (argc == 4) ? argv[3] : "echo", "udp");
+  unsigned short echoServPort = Socket::resolveService(argv[4], "udp");
 
   try {
-    UDPSocket sock;
+    UDPSocket sock(std::atoi(userInputlocalPort.c_str()));
   
     // 1. send the string to the server
     sock.sendTo(echoString, echoStringLen, servAddress, echoServPort);
