@@ -31,6 +31,8 @@ public:
   std::string getLocalAddress();
   unsigned short getLocalPort();
 
+  int getSocketDescriptor() { return sock_desc_; }
+
   void setLocalPort(unsigned short localPort);
   void setLocalAddressAndPort(const std::string &localAddress, 
                               unsigned short localPort = 0);
