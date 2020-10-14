@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 
 #include "communicating_socket.h"
+#include "socket_utils.h"
 
 typedef void raw_type;
 

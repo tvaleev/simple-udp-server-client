@@ -9,6 +9,7 @@
 
 #include "socket.h"
 #include "socket_exception.h"
+#include "socket_utils.h"
 
 Socket::Socket(int type, int protocol) {
   if ((sock_desc_ = socket(PF_INET, type, protocol)) < 0) {

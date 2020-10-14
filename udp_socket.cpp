@@ -9,6 +9,7 @@
 
 #include "udp_socket.h"
 #include "socket_exception.h"
+#include "socket_utils.h"
 
 typedef void raw_type;
 
