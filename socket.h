@@ -7,7 +7,7 @@
 
 class Socket {
 public:
-  ~Socket();
+  virtual ~Socket();
 
   std::string getLocalAddress();
   unsigned short getLocalPort();
