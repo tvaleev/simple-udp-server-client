@@ -21,20 +21,20 @@ void CommunicatingSocket::connect(const std::string &foreignAddress,
   fillAddr(foreignAddress, foreignPort, destAddr);
 
   // Try to connect to the given port
-  if (::connect(sock_desc_, (sockaddr *) &destAddr, sizeof(destAddr)) < 0) {
+  if (::connect(getSocketDescriptor(), (sockaddr *) &destAddr, sizeof(destAddr)) < 0) {
     throw SocketException("Connect failed", true);
   }
 }
 
 void CommunicatingSocket::send(const void *buffer, int bufferLen) {
-  if (::send(sock_desc_, (raw_type *) buffer, bufferLen, 0) < 0) {
+  if (::send(getSocketDescriptor(), (raw_type *) buffer, bufferLen, 0) < 0) {
     throw SocketException("Send failed", true);
   }
 }
 
 int CommunicatingSocket::recv(void *buffer, int bufferLen) {
   int rtn;
-  if ((rtn = ::recv(sock_desc_, (raw_type *) buffer, bufferLen, 0)) < 0) {
+  if ((rtn = ::recv(getSocketDescriptor(), (raw_type *) buffer, bufferLen, 0)) < 0) {
     throw SocketException("Received failed", true);
   }
 
@@ -45,7 +45,7 @@ std::string CommunicatingSocket::getForeignAddress() {
   sockaddr_in addr;
   unsigned int addr_len = sizeof(addr);
 
-  if (getpeername(sock_desc_, (sockaddr *) &addr,(socklen_t *) &addr_len) < 0) {
+  if (getpeername(getSocketDescriptor(), (sockaddr *) &addr,(socklen_t *) &addr_len) < 0) {
     throw SocketException("Fetch of foreign address failed", true);
   }
   return inet_ntoa(addr.sin_addr);
@@ -55,7 +55,7 @@ unsigned short CommunicatingSocket::getForeignPort() {
   sockaddr_in addr;
   unsigned int addr_len = sizeof(addr);
 
-  if (getpeername(sock_desc_, (sockaddr *) &addr, (socklen_t *) &addr_len) < 0) {
+  if (getpeername(getSocketDescriptor(), (sockaddr *) &addr, (socklen_t *) &addr_len) < 0) {
     throw SocketException("Fetch of foreign port failed", true);
   }
   return ntohs(addr.sin_port);

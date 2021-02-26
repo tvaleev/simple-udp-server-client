@@ -32,7 +32,7 @@ void UDPSocket::disconnect() {
   nullAddr.sin_family = AF_UNSPEC;
 
   // Try to disconnect
-  if (::connect(sock_desc_, (sockaddr *) &nullAddr, sizeof(nullAddr)) < 0) {
+  if (::connect(getSocketDescriptor(), (sockaddr *) &nullAddr, sizeof(nullAddr)) < 0) {
     if (errno != EAFNOSUPPORT) {
       throw SocketException("Disconnect failed", true);
     }
@@ -45,7 +45,7 @@ void UDPSocket::sendTo(const void *buffer, int bufferLen,
   fillAddr(foreignAddress, foreignPort, destAddr);
 
   // Write out the whole buffer as a single message.
-  if (sendto(sock_desc_, (raw_type *) buffer, bufferLen, 0,
+  if (sendto(getSocketDescriptor(), (raw_type *) buffer, bufferLen, 0,
              (sockaddr *) &destAddr, sizeof(destAddr)) != bufferLen) {
     throw SocketException("Send failed", true);
   }
@@ -56,7 +56,7 @@ int UDPSocket::recvFrom(void *buffer, int bufferLen, std::string &sourceAddress,
   sockaddr_in clntAddr;
   socklen_t addrLen = sizeof(clntAddr);
   int rtn;
-  if ((rtn = recvfrom(sock_desc_, (raw_type *) buffer, bufferLen, 0, 
+  if ((rtn = recvfrom(getSocketDescriptor(), (raw_type *) buffer, bufferLen, 0, 
                       (sockaddr *) &clntAddr, (socklen_t *) &addrLen)) < 0) {
     throw SocketException("Receive failed", true);
   }

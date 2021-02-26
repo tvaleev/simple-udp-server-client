@@ -27,7 +27,7 @@ private:
 
 protected:
   Socket(int type, int protocol);
-  Socket(int sockDesc);
+  explicit Socket(int sockDesc);
 
   int sock_desc_;
 };
