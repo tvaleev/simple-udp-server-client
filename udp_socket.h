@@ -18,6 +18,8 @@ public:
               unsigned short foreignPort);
   int recvFrom(void *buffer, int bufferLen, std::string &sourceAddress, 
                 unsigned short &sourcePort);
+  bool hasPendingDatagramms() const;
+  int pendingDatagramSize() const;
 };
 
 #endif // UDP_SOCKET_H

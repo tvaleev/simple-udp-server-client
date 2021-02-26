@@ -65,3 +65,24 @@ int UDPSocket::recvFrom(void *buffer, int bufferLen, std::string &sourceAddress,
 
   return rtn;
 }
+
+bool UDPSocket::hasPendingDatagramms() const {
+  ssize_t readBytes;
+  char c;
+  do {
+    readBytes = ::recv(sock_desc_, &c, 1, MSG_PEEK);
+  } while (readBytes == -1 && errno == EINTR);
+
+  bool result = (readBytes != -1) || errno == EMSGSIZE;
+  return result;
+}
+
+int UDPSocket::pendingDatagramSize() const {
+  ssize_t recvResult = -1;
+  char c;
+  do {
+    recvResult = ::recv(sock_desc_, &c, 1, MSG_PEEK | MSG_TRUNC);
+  } while (recvResult == -1 && errno == EINTR);
+
+  return recvResult;
+}
