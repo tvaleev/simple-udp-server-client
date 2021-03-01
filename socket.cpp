@@ -77,3 +77,7 @@ unsigned short Socket::resolveService(const std::string &service,
   else 
     return ntohs(serv->s_port);
 }
+
+void Socket::setCurrentTTL(socklen_t ttl) {
+  setsockopt(sock_desc_, IPPROTO_IP, IP_TTL, &ttl, sizeof(socklen_t));
+}

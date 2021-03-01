@@ -2,6 +2,7 @@
 #define SOCKET_H_
 
 #include <string>
+#include <sys/socket.h>
 
 #include "socket_exception.h"
 
@@ -20,6 +21,8 @@ public:
 
   static unsigned short resolveService(const std::string &service,
                                        const std::string &protocol = "udp");
+
+  void setCurrentTTL(socklen_t ttl);
 
 private:
   Socket(const Socket &sock);
